@@ -32,8 +32,41 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
-        {children}
+      <body className="flex flex-col min-h-screen">
+        {/* 헤더 (흰색) */}
+        <header className="w-full p-6 bg-white text-black flex justify-between items-center border-b border-gray-300">
+          <h1 className="text-2xl font-bold">🍰 My Recipe</h1>
+          <nav>
+            <a href="/" className="text-gray-600 hover:text-black px-4">Home</a>
+            <a href="/recipes" className="text-gray-600 hover:text-black px-4">Recipes</a>
+            <a href="/upload" className="text-gray-600 hover:text-black px-4">Upload</a>
+          </nav>
+        </header>
+
+        {/* 메인 영역 (흰색) */}
+        <main className="flex-1 bg-white">
+          <Outlet />
+        </main>
+
+        {/* 푸터 (흰색) */}
+        <footer className="w-full p-10 bg-white text-gray-600 border-t border-gray-300 text-sm">
+          <div className="max-w-5xl mx-auto flex justify-between">
+            <div>
+              <h2 className="font-semibold text-gray-800">My Recipe</h2>
+              <p>© 2025 My Recipe. All rights reserved.</p>
+            </div>
+            <div>
+              <h2 className="font-semibold text-gray-800">Links</h2>
+              <a href="/" className="block hover:text-black">Home</a>
+              <a href="/recipes" className="block hover:text-black">Recipes</a>
+            </div>
+            <div>
+              <h2 className="font-semibold text-gray-800">Subscribe</h2>
+              <input type="email" placeholder="you@example.com" className="p-2 border rounded-md w-48 mt-2" />
+            </div>
+          </div>
+        </footer>
+
         <ScrollRestoration />
         <Scripts />
       </body>
