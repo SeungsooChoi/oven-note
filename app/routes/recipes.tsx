@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { Link, useLoaderData } from "react-router";
+import { useLoaderData } from "react-router";
 import RecipeCard from "~/components/RecipeCard";
 
 // Supabase 클라이언트 생성

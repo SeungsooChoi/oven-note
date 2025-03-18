@@ -66,6 +66,12 @@ export default function RecipeDetail() {
           >
             🔙 목록으로 돌아가기
           </Link>
+          <Link
+            to={`/recipes/${recipe.id}/edit`}
+            className="px-4 py-2 bg-yellow-500 text-white rounded-lg shadow-md hover:bg-yellow-600"
+          >
+            ✏️ 수정하기
+          </Link>
           <button
             className="px-2 py-1 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition-all text-sm font-medium"
           >
