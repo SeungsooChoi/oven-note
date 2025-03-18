@@ -1,5 +1,6 @@
-import { Link, useLoaderData, type LoaderFunctionArgs } from "react-router";
+import { Link, useLoaderData, useNavigate, type LoaderFunctionArgs } from "react-router";
 import { supabase } from "~/utils/supabase.server";
+import { supabase as supabaseClient } from "~/utils/supabase.client";
 
 // 🛠️ 상세 페이지의 데이터 로더 (React Router v7 방식)
 export async function loader({ params }: LoaderFunctionArgs) {
@@ -19,6 +20,19 @@ export async function loader({ params }: LoaderFunctionArgs) {
 // 🖥️ 상세 페이지 컴포넌트
 export default function RecipeDetail() {
   const recipe = useLoaderData<typeof loader>();
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    const { error } = await supabaseClient.from("recipes").delete().eq("id", recipe.id);
+
+    if (error) {
+      alert("삭제 중 오류가 발생했습니다.");
+      return;
+    }
+
+    alert("레시피가 삭제되었습니다.");
+    navigate("/recipes"); // 삭제 후 목록 페이지로 이동
+  }
 
   return (
     <div className="w-full md:max-w-4xl mx-auto px-3 py-6">
@@ -76,6 +90,12 @@ export default function RecipeDetail() {
             className="px-2 py-1 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition-all text-sm font-medium"
           >
             ❤️ 좋아요
+          </button>
+          <button
+            onClick={handleDelete}
+            className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600"
+          >
+            🗑️ 삭제하기
           </button>
         </div>
       </div>
