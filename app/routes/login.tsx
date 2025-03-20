@@ -1,4 +1,20 @@
-import { useNavigate } from "react-router";
+import { Form, redirect, useNavigate, type ActionFunctionArgs } from "react-router";
+import { supabase } from "~/utils/supabase.server";
+
+// 로그인 액션
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = await request.formData();
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  const { error, data } = await supabase.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    throw new Response("로그인 실패.", { status: 404 });
+  }
+
+  return redirect("/recipes"); // 로그인 성공 시 이동
+}
 
 export default function Login() {
   const navigate = useNavigate();
@@ -13,7 +29,7 @@ export default function Login() {
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-lg font-bold mb-4">로그인</h2>
-        <form>
+        <Form method="post">
           <input
             type="email"
             placeholder="이메일"
@@ -27,7 +43,7 @@ export default function Login() {
           <button className="w-full bg-blue-500 text-white p-2 rounded">
             로그인
           </button>
-        </form>
+        </Form>
       </div>
     </div>
   );

@@ -1,14 +1,18 @@
 import {
+  Form,
   isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
+  type LoaderFunctionArgs,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { supabase } from "./utils/supabase.server";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -23,7 +27,16 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+
+// 로그인 상태 로드
+export async function loader({ request }: LoaderFunctionArgs) {
+  const { data, error } = await supabase.auth.getUser();
+  return { user: data?.user || null }
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { user } = useLoaderData<typeof loader>();
+
   return (
     <html lang="en">
       <head>
@@ -40,6 +53,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <a href="/" className="text-gray-600 hover:text-black px-4">Home</a>
             <a href="/recipes" className="text-gray-600 hover:text-black px-4">Recipes</a>
             <a href="/upload" className="text-gray-600 hover:text-black px-4">Upload</a>
+            {user ? (
+              <Form method="post" action="/logout" className="inline-block">
+                <button type="submit" className="text-gray-600 hover:text-black px-4">로그아웃</button>
+              </Form>
+            ) : (
+              <>
+                <a href="/login" className="text-gray-600 hover:text-black px-4">로그인</a>
+                <a href="/signup" className="text-gray-600 hover:text-black px-4">회원가입</a>
+              </>
+            )}
           </nav>
         </header>
 
