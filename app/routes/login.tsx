@@ -8,6 +8,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const password = formData.get("password") as string;
 
   const { error, data } = await supabase.auth.signInWithPassword({ email, password });
+  console.log(data, error)
 
   if (error) {
     throw new Response("로그인 실패.", { status: 404 });
@@ -31,11 +32,13 @@ export default function Login() {
         <h2 className="text-lg font-bold mb-4">로그인</h2>
         <Form method="post">
           <input
+            name="email"
             type="email"
             placeholder="이메일"
             className="w-full p-2 border rounded mb-2"
           />
           <input
+            name="password"
             type="password"
             placeholder="비밀번호"
             className="w-full p-2 border rounded mb-4"

@@ -1,12 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
 import { useLoaderData } from "react-router";
 import RecipeCard from "~/components/RecipeCard";
-
-// Supabase 클라이언트 생성
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL!,
-  import.meta.env.VITE_SUPABASE_ANON_KEY!
-);
+import { supabase } from "~/utils/supabase.server";
 
 export async function loader() {
   const { data, error } = await supabase.from("recipes").select("*");

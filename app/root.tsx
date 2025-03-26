@@ -13,6 +13,7 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { supabase } from "./utils/supabase.server";
+import { Button } from "./components/ui/button";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -55,7 +56,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <a href="/upload" className="text-gray-600 hover:text-black px-4">Upload</a>
             {user ? (
               <Form method="post" action="/logout" className="inline-block">
-                <button type="submit" className="text-gray-600 hover:text-black px-4">로그아웃</button>
+                <Button type="submit" size="sm">로그아웃</Button>
               </Form>
             ) : (
               <>

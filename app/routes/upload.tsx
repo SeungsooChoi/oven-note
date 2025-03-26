@@ -1,6 +1,7 @@
 import { Form, useActionData } from "react-router";
 import { supabase } from "~/utils/supabase.server";
 import type { Route } from "./+types";
+import { Card, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 
 export async function action({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
@@ -22,6 +23,12 @@ export default function UploadRecipe() {
 
   return (
     <Form method="post">
+      <Card>
+        <CardHeader>
+          <CardTitle>레시피 등록</CardTitle>
+          <CardDescription>레시피를 등록하기 위해 모든 정보를 입력하세요.</CardDescription>
+        </CardHeader>
+      </Card>
       <input name="title" placeholder="레시피 제목" required />
       <textarea name="description" placeholder="설명" required />
       <input name="cook_time" type="number" placeholder="조리 시간 (분)" required />
